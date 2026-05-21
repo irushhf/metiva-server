@@ -4,7 +4,7 @@ import { execSync } from 'child_process';
 export async function getServerSideProps() {
     const ip = execSync('hostname -I').toString().trim().split(/\s+/)[0];
     const hostname = execSync('hostname').toString().trim();
-    const ips = execSync("hostname -I | awk '{print $1}'")
+    const ips = execSync("hostname -I | awk '{print $1}'").toString().trim()
     return { props: { ip, hostname,ips } };
 }
 
