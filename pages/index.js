@@ -4,8 +4,10 @@ import { execSync } from 'child_process';
 export async function getServerSideProps() {
     const ip = execSync('hostname -I').toString().trim().split(/\s+/)[0];
     const hostname = execSync('hostname').toString().trim();
+    const ips = execSync("hostname -I | awk '{print $1}'")
     return { props: { ip, hostname } };
 }
+
 
 function Badge({ label, value, unit = '', color = '#4ade80' }) {
     return (
