@@ -5,7 +5,7 @@ export async function getServerSideProps() {
     const ip = execSync('hostname -I').toString().trim().split(/\s+/)[0];
     const hostname = execSync('hostname').toString().trim();
     const ips = execSync("hostname -I | awk '{print $1}'")
-    return { props: { ip, hostname } };
+    return { props: { ip, hostname,ips } };
 }
 
 
@@ -23,7 +23,7 @@ function Badge({ label, value, unit = '', color = '#4ade80' }) {
     );
 }
 
-export default function Home({ ip, hostname }) {
+export default function Home({ ip, hostname, ips }) {
     const [stats, setStats] = useState(null);
 
     const fetchStats = async () => {
@@ -73,6 +73,7 @@ export default function Home({ ip, hostname }) {
                 <div className="dot" />
                 <Badge label="Hostname" value={hostname} />
                 <Badge label="Local IP" value={ip} />
+                <Badge label="Local IP ips" value={ips} />
                 <Badge label="SSH" value={`user@${ip}`} color="#60a5fa" />
                 {cpu != null && <Badge label="CPU Usage" value={cpu} unit="%" color={cpuColor} />}
                 {ramUsed != null && <Badge label="RAM Used" value={ramUsed} unit=" GB" color={ramColor} />}
