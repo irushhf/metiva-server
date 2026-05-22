@@ -30,7 +30,9 @@ export async function getServerSideProps() {
     // ── Identity ────────────────────────────────────────────────────────────
     const hostname  = readFile('/proc/sys/kernel/hostname') || run('hostname');
     const allIPs    = run('hostname -I').split(/\s+/).filter(Boolean);
-    const ip        = allIPs[0] || 'N/A';
+    const ip = allIPs.find(a => /^192\.168\./.test(a)) ||
+        allIPs.find(a => /^172\.(1[6-9]|2\d|3[01])\./.test(a) === false && /^10\./.test(a)) ||
+        allIPs[0] || 'N/A';
     const arch      = run('uname -m');
     const kernelVer = run('uname -r');
     const osName    = run("lsb_release -d 2>/dev/null | cut -d: -f2").trim() ||
